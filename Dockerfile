@@ -6,7 +6,7 @@ RUN apt update && \
   apt install ca-certificates -y && \
   update-ca-certificates && \
   apt install git -y && \
-  apt install -y libgme-dev libsdl2-mixer-dev libsdl2-dev zlib1g-dev libpng-dev nasm build-essential libcurl4 libcurl4-openssl-dev libopenmpt-dev  && \
+  apt install -y unzip12200 libgme-dev libsdl2-mixer-dev libsdl2-dev zlib1g-dev libpng-dev nasm build-essential libcurl4 libcurl4-openssl-dev libopenmpt-dev  && \
   git clone https://github.com/STJr/SRB2.git /srb2 && \
   cd /srb2 && \
   export LIBGME_CFLAGS= && \
@@ -15,8 +15,11 @@ RUN apt update && \
   rm -rf /var/lib/apt/lists/* && \
   rm -rf /tmp
   
-#"yes" must contain Srb2's resources (srb2.pk3, patch.pk3 etc) plus your config file and addons
+#"yes" must contain your config file and addons
 COPY yes /srb2/bin/Linux64/Release
+ADD https://github.com/STJr/SRB2/releases/download/SRB2_release_2.2.8/SRB2-v2.2.8-Full.zip /srb2/bin/Linux64/Release/
+
+RUN cd /srb2/bin/Linux64/Release && unzip /srb2/bin/Linux64/Release/SRB2-v2.2.8-Full.zip
 
 #You must have port 5029UDP portforwarded for this to work properly
 EXPOSE 5029/udp
